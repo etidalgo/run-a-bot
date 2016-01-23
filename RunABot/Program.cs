@@ -20,9 +20,11 @@ namespace RunABot
                 "Open Pod Bay Doors",
                 "Report",
                 "Place 3, 3, South",
+                "Report",
                 "Left",
                 "Move",
-                "Exterminate"
+                "Exterminate",
+                "Report"
             };
 
             Board board = new Board(5, 5);
@@ -45,7 +47,7 @@ namespace RunABot
                     else
                     {
                         Console.WriteLine("Applying command: {0}", cmd);
-                        //action.Apply(bot);
+                        action.Apply(bot);
                     }
                 }
                 else

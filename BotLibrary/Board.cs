@@ -8,26 +8,20 @@ using BotLibrary;
 
 namespace BotLibrary
 {
-    public class Coords
-    {
-        public int X { get; set; }
-        public int Y { get; set; }
-
-        public Coords(int x, int y)
-        {
-            X = x;
-            Y = y;
-        }
-    }
-
     public class Board
     {
-        public Coords Dimensions { get; set; }
+        public int XSize { get; private set; }
+        public int YSize { get; private set; }
 
         public Board(int x, int y)
         {
-            Dimensions = new Coords(x, y);
+            XSize = x;
+            YSize = y;
         }
 
+        public bool IsValidMove(int x, int y)
+        {
+            return (x >= 0 && x < XSize) && (y >= 0 && y < YSize);
+        }
     }
 }

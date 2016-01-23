@@ -20,11 +20,11 @@ namespace BotLibrary
 
         static private Dictionary<int, Func<List<string>, BotAction>> mapToActions = new Dictionary<int, Func<List<string>, BotAction>>
         {                                   
-            { (int)Keyword.Place , (p) => (new BotAction()) }, 
-            { (int)Keyword.Report, (p) => (new BotAction()) }, 
-            { (int)Keyword.Left  , (p) => (new BotAction()) }, 
-            { (int)Keyword.Right , (p) => (new BotAction()) }, 
-            { (int)Keyword.Move  , (p) => (new BotAction()) }, 
+            { (int)Keyword.Place , (p) => (CreatePlaceAction(p)) }, 
+            { (int)Keyword.Report, (p) => (new BotActionReport()) }, 
+            { (int)Keyword.Left  , (p) => (new BotActionLeft()) }, 
+            { (int)Keyword.Right , (p) => (new BotActionRight()) }, 
+            { (int)Keyword.Move  , (p) => (new BotActionMove()) }, 
         };
         static public BotAction GenerateAction(string command)
         {
@@ -88,6 +88,14 @@ namespace BotLibrary
         }
     }
 
+    public class BotActionReport : BotAction
+    {
+        override public void Apply(Bot bot)
+        {
+            bot.Report();
+        }
+    }
+
     public class BotActionPlace : BotAction
     {
         public int X { get; set; }
@@ -113,10 +121,10 @@ namespace BotLibrary
     {
         private Dictionary<Direction.DirectionType, Func<Tuple<int, int>, Tuple<int, int>>> newCoords = new Dictionary<Direction.DirectionType, Func<Tuple<int, int>, Tuple<int, int> > >
         {                                   
-            {Direction.DirectionType.North, (coords) => Tuple.Create( coords.Item1, coords.Item2) },
-            {Direction.DirectionType.East , (coords) => Tuple.Create( coords.Item1, coords.Item2) },
-            {Direction.DirectionType.South, (coords) => Tuple.Create( coords.Item1, coords.Item2) },
-            {Direction.DirectionType.West , (coords) => Tuple.Create( coords.Item1, coords.Item2) },
+            {Direction.DirectionType.North, (coords) => Tuple.Create( coords.Item1  , coords.Item2+1) },
+            {Direction.DirectionType.East , (coords) => Tuple.Create( coords.Item1+1, coords.Item2) },
+            {Direction.DirectionType.South, (coords) => Tuple.Create( coords.Item1  , coords.Item2-1) },
+            {Direction.DirectionType.West , (coords) => Tuple.Create( coords.Item1-1, coords.Item2) },
         };
 
         override public void Apply(Bot bot)
@@ -124,8 +132,12 @@ namespace BotLibrary
             var newXY = newCoords[bot.Orientation](Tuple.Create(bot.X, bot.Y));
             int newX = newXY.Item1;
             int newY = newXY.Item2;
-            bot.X = newX;
-            bot.Y = newY;
+
+            if (bot.Board.IsValidMove(newX, newY))
+            {
+                bot.X = newX;
+                bot.Y = newY;
+            }
         }
     }
 
