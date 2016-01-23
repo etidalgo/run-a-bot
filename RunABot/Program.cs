@@ -33,7 +33,7 @@ namespace RunABot
 
             foreach (var cmd in commands)
             {
-                // if bot exists, resolve and apply commands
+                // resolve and apply commands
                 BotAction action = CommandProcessor.GenerateAction(cmd);
                 if (action != null)
                 {
@@ -54,8 +54,6 @@ namespace RunABot
                 {
                     Console.WriteLine("Command not recognized: {0}", cmd);
                 }
-
-
             }
         }
     }
