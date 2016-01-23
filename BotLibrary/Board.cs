@@ -20,13 +20,13 @@ namespace BotLibrary
         }
     }
 
-    class Board
+    public class Board
     {
         public Coords Dimensions { get; set; }
 
-        public Board(Coords dimensions)
+        public Board(int x, int y)
         {
-            Dimensions = dimensions;
+            Dimensions = new Coords(x, y);
         }
 
     }
