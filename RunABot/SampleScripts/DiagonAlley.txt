@@ -1,0 +1,23 @@
+Report
+Place 4,0,North
+Report
+Move
+Left
+Move
+Right
+Report
+Move
+Left
+Move
+Right
+Report
+Move
+Left
+Move
+Right
+Report
+Move
+Left
+Move
+Right
+Report

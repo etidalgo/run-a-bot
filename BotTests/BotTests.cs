@@ -67,6 +67,8 @@ namespace BotTests
                 yield return new TestCaseData("Open Pod Bay Doors", false);
                 yield return new TestCaseData("Place 2,3,South", true);
                 yield return new TestCaseData("Left", true);
+                yield return new TestCaseData("  Report", true);
+                yield return new TestCaseData("// Report", false);
             }
         }
 

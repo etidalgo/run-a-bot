@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BotLibrary;
+
 
 namespace RunABot
 {
     class Program
     {
-        static void Main(string[] args)
+        static void RunSample()
         {
             string[] commands =
             {
@@ -26,34 +27,42 @@ namespace RunABot
                 "Exterminate",
                 "Report"
             };
+            CommandLoop.Run(commands.ToList());
+        }
 
-            Board board = new Board(5, 5);
-            Bot bot = new Bot(board);
-            char[] delimiterChars = { ' ', ','};
+        public static void RunFile(string fileName)
+        {
+            FileStream fileStream = new FileStream(fileName,
+                                           FileMode.OpenOrCreate,
+                                           FileAccess.Read,
+                                           FileShare.Read);
 
-            foreach (var cmd in commands)
+            StreamReader streamReader = new StreamReader(fileStream);
+            List<string> lineContents = new List<string>();
+            string currLine;
+            while ((currLine = streamReader.ReadLine()) != null) {
+                lineContents.Add(currLine);
+            }
+            streamReader.Close( );
+            CommandLoop.Run(lineContents); 
+        }
+        public static void ShowHelp()
+        {
+
+        }
+        static void Main(string[] args)
+        {
+            if (args.Count() == 0)
             {
-                // resolve and apply commands
-                BotAction action = CommandProcessor.GenerateAction(cmd);
-                if (action != null)
-                {
-                    Console.WriteLine("Attempting command: {0}", cmd);
-                    string keyword = CommandProcessor.GetKeyword(cmd);
-                    if (!bot.IsPlaced && !string.Equals(keyword, "Place", StringComparison.CurrentCultureIgnoreCase))
-                    {
-                        Console.WriteLine("Bot not placed, ignoring command: {0}", cmd);
-                        continue;
-                    }
-                    else
-                    {
-                        Console.WriteLine("Applying command: {0}", cmd);
-                        action.Apply(bot);
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Command not recognized: {0}", cmd);
-                }
+                RunSample();
+            }
+            else if (string.Equals(args[0], "/f", StringComparison.CurrentCultureIgnoreCase))
+            {
+                RunFile(args[1]);
+                    // run file args[1]
+            }
+            else if (string.Equals(args[0], "/h", StringComparison.CurrentCultureIgnoreCase)) {
+                ShowHelp();
             }
         }
     }

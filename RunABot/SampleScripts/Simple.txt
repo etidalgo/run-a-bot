@@ -1,0 +1,12 @@
+Report
+Place 2,2,West
+Report
+Move
+Move
+Move
+Report
+Left
+Move
+Move
+Move
+Report
