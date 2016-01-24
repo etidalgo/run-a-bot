@@ -65,9 +65,10 @@ namespace BotTests
         public void VerifyLeftRightAction(Direction.DirectionType startOrientation, BotAction turnAction, Direction.DirectionType endOrientation)
         {
             Board board = new Board(5, 5);
-            Bot bot = new Bot(board);
-            BotActionPlace placeAction = new BotActionPlace(2, 2, startOrientation);
-            placeAction.Apply(bot);
+            BotTest bot = new BotTest(board);
+            bot._SetCoordinates(2, 2);
+            bot._SetOrientation(startOrientation); 
+
             turnAction.Apply(bot);
             Assert.AreEqual(endOrientation, bot.Orientation);
         }
