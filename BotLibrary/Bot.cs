@@ -5,18 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-/*
- *     public interface SparkTest<T>
-    {
-
-    }
-
-    public interface ITestPatientDataAccess : SparkTest<IPatientDataAccess>
-    {
-        string getPatientCode(PatientDemographic patDem);
-    }
-
- */
 namespace BotLibrary
 {
 
@@ -47,12 +35,12 @@ namespace BotLibrary
 
     public class Bot
     {
-        public int X { get; set; }
-        public int Y { get; set; }
-        public Direction.DirectionType Orientation { get; set; }
-        public bool IsPlaced { get; set; }
+        public int X { get; protected set; }
+        public int Y { get; protected set; }
+        public Direction.DirectionType Orientation { get; protected set; }
+        public bool IsPlaced { get; protected set; }
 
-        public Board Board { get;  set; }
+        public Board Board { get;  protected set; }
 
         public Bot()
         {
@@ -65,10 +53,16 @@ namespace BotLibrary
             Board = board;
         }
 
-        public void Report()
+        protected internal void SetCoordinates(int x, int y)
         {
-            // Need more generic way to output
-            Console.WriteLine("{0}, {1}, {2}", X, Y, Orientation.ToString());
+            X = x;
+            Y = y;
+            IsPlaced = true;
+        }
+
+        protected internal void SetOrientation(Direction.DirectionType orientation)
+        {
+            Orientation = orientation;
         }
     }
 }

@@ -1,0 +1,17 @@
+// Attempt to move robot off each edge
+Place 0,2,West
+Report
+Move
+Report
+Place 2,4,North
+Report
+Move
+Report
+Place 4,2,East
+Report
+Move
+Report
+Place 2,0,South
+Report
+Move
+Report

@@ -67,7 +67,7 @@ namespace BotLibrary
             return Keyword.Unknown;
         }
 
-        // differs to read parameters
+        // Different from others as it has to read parameters
         static public BotAction CreatePlaceAction(List<string> cmdParms) {
             // params = x, y, direction
             int x, y;
@@ -80,27 +80,25 @@ namespace BotLibrary
         }
     }
 
-    public class BotAction
+    abstract public class BotAction
     {
-        virtual public void Apply(Bot bot)
-        {
-
-        }
+        abstract public void Apply(Bot bot);
     }
 
     public class BotActionReport : BotAction
     {
         override public void Apply(Bot bot)
         {
-            bot.Report();
+            // Need more generic way to output
+            Console.WriteLine("{0}, {1}, {2}", bot.X, bot.Y, bot.Orientation.ToString());
         }
     }
 
     public class BotActionPlace : BotAction
     {
-        public int X { get; set; }
-        public int Y { get; set; }
-        public Direction.DirectionType Orientation { get; set; }
+        public int X { get; private set; }
+        public int Y { get; private set; }
+        public Direction.DirectionType Orientation { get; private set; }
 
         public BotActionPlace(int x, int y, Direction.DirectionType orientation)
         {
@@ -110,10 +108,8 @@ namespace BotLibrary
         }
         override public void Apply(Bot bot)
         {
-            bot.X = X;
-            bot.Y = Y;
-            bot.Orientation = Orientation;
-            bot.IsPlaced = true;
+            bot.SetCoordinates(X, Y);
+            bot.SetOrientation(Orientation);
         }
     }
 
@@ -135,8 +131,7 @@ namespace BotLibrary
 
             if (bot.Board.IsValidMove(newX, newY))
             {
-                bot.X = newX;
-                bot.Y = newY;
+                bot.SetCoordinates(newX, newY);
             }
         }
     }
@@ -152,7 +147,7 @@ namespace BotLibrary
         };
         override public void Apply(Bot bot)
         {
-            bot.Orientation = newDirection[bot.Orientation];
+            bot.SetOrientation(newDirection[bot.Orientation]);
         }
     }
 
@@ -167,7 +162,8 @@ namespace BotLibrary
         };                                                          
         override public void Apply(Bot bot)                         
         {
-            bot.Orientation = newDirection[bot.Orientation];
+            bot.SetOrientation(newDirection[bot.Orientation]);
         }
     }
+
 }

@@ -8,6 +8,25 @@ using NUnit.Framework;
 
 namespace BotTests
 {
+
+    public class BotTest : Bot
+    {
+        public BotTest(Board board) :
+            base(board)
+        {
+
+        }
+        public void _SetCoordinates(int x, int y)
+        {
+            SetCoordinates(x, y);
+        }
+
+        public void _SetOrientation(Direction.DirectionType orientation)
+        {
+            SetOrientation(orientation);
+        }
+    }
+
     [TestFixture]
     public class BotTestFixture
     {
@@ -33,9 +52,9 @@ namespace BotTests
         public void VerifyMoveAction(Tuple<int,int> start, Direction.DirectionType orientation, Tuple<int, int> end)
         {
             Board board = new Board(5, 5);
-            Bot bot = new Bot(board);
-            BotActionPlace placeAction = new BotActionPlace(start.Item1, start.Item2, orientation);
-            placeAction.Apply(bot);
+            BotTest bot = new BotTest(board);
+            bot._SetCoordinates(start.Item1, start.Item2);
+            bot._SetOrientation(orientation);
             BotActionMove action = new BotActionMove();
             action.Apply(bot);
             Assert.AreEqual(end.Item1, bot.X);
@@ -92,7 +111,7 @@ namespace BotTests
         public static IEnumerable LeftRightTestCases
         {
             get
-            { // start coords, start direction, end coords
+            { // start direction, action, end direction
                 yield return new TestCaseData(Direction.DirectionType.North, new BotActionLeft(), Direction.DirectionType.West);
                 yield return new TestCaseData(Direction.DirectionType.East , new BotActionLeft(), Direction.DirectionType.North);
                 yield return new TestCaseData(Direction.DirectionType.South, new BotActionLeft(), Direction.DirectionType.East);

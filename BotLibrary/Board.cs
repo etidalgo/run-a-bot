@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Text;
 using System.Threading.Tasks;
 using BotLibrary;
@@ -10,8 +8,8 @@ namespace BotLibrary
 {
     public class Board
     {
-        public int XSize { get; private set; }
-        public int YSize { get; private set; }
+        public int XSize { get; protected set; }
+        public int YSize { get; protected set; }
 
         public Board(int x, int y)
         {

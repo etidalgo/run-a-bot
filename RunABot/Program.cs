@@ -27,7 +27,8 @@ namespace RunABot
                 "Exterminate",
                 "Report"
             };
-            CommandLoop.Run(commands.ToList());
+            CommandEnvironment commandEnv = new CommandEnvironment();
+            commandEnv.Run(commands.ToList());
         }
 
         public static void RunFile(string fileName)
@@ -44,8 +45,11 @@ namespace RunABot
                 lineContents.Add(currLine);
             }
             streamReader.Close( );
-            CommandLoop.Run(lineContents); 
+
+            CommandEnvironment commandEnv = new CommandEnvironment();
+            commandEnv.Run(lineContents);
         }
+
         public static void ShowHelp()
         {
             Console.WriteLine("RunABot");
@@ -53,21 +57,22 @@ namespace RunABot
             Console.WriteLine("\t/f <filename> : Load and run commands from file");
             Console.WriteLine("\t/h            : Show this help screen");
         }
+
         static void Main(string[] args)
         {
             if (args.Count() == 0)
             {
                 RunSample();
             }
-            else if (string.Equals(args[0], "/f", StringComparison.CurrentCultureIgnoreCase))
-            {
-                RunFile(args[1]);
-                    // run file args[1]
-            }
-            else if (string.Equals(args[0], "/h", StringComparison.CurrentCultureIgnoreCase) ||
-                string.Equals(args[0], "/?", StringComparison.CurrentCultureIgnoreCase) )
-            {
-                ShowHelp();
+            switch( args[0].ToLower()) {
+                case "/f":
+                    RunFile(args[1]); // /f <filenam>
+                    break;
+
+                case "/h":
+                case "/?":
+                    ShowHelp();
+                    break;
             }
         }
     }
