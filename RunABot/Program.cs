@@ -31,7 +31,7 @@ namespace RunABot
             commandEnv.Run(commands.ToList());
         }
 
-        public static void RunFile(string fileName)
+        public static IEnumerable<string> RunFile(string fileName)
         {
             FileStream fileStream = new FileStream(fileName,
                                            FileMode.OpenOrCreate,
@@ -39,15 +39,12 @@ namespace RunABot
                                            FileShare.Read);
 
             StreamReader streamReader = new StreamReader(fileStream);
-            List<string> lineContents = new List<string>();
             string currLine;
             while ((currLine = streamReader.ReadLine()) != null) {
-                lineContents.Add(currLine);
+                yield return (currLine);
             }
             streamReader.Close( );
-
-            CommandEnvironment commandEnv = new CommandEnvironment();
-            commandEnv.Run(lineContents);
+            yield break;
         }
 
         public static void ShowHelp()
@@ -66,7 +63,8 @@ namespace RunABot
             }
             switch( args[0].ToLower()) {
                 case "/f":
-                    RunFile(args[1]); // /f <filenam>
+                    CommandEnvironment commandEnv = new CommandEnvironment();
+                    commandEnv.Run(RunFile(args[1])); // /f <filenam>
                     break;
 
                 case "/h":
