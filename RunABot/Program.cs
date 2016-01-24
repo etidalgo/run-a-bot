@@ -48,7 +48,10 @@ namespace RunABot
         }
         public static void ShowHelp()
         {
-
+            Console.WriteLine("RunABot");
+            Console.WriteLine("\tA simple robot simulator - opensourced January 2016");
+            Console.WriteLine("\t/f <filename> : Load and run commands from file");
+            Console.WriteLine("\t/h            : Show this help screen");
         }
         static void Main(string[] args)
         {
@@ -61,7 +64,9 @@ namespace RunABot
                 RunFile(args[1]);
                     // run file args[1]
             }
-            else if (string.Equals(args[0], "/h", StringComparison.CurrentCultureIgnoreCase)) {
+            else if (string.Equals(args[0], "/h", StringComparison.CurrentCultureIgnoreCase) ||
+                string.Equals(args[0], "/?", StringComparison.CurrentCultureIgnoreCase) )
+            {
                 ShowHelp();
             }
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 using BotLibrary;
 
 namespace RunABot
@@ -21,11 +22,11 @@ namespace RunABot
                 BotAction action = CommandProcessor.GenerateAction(cmd);
                 if (action != null)
                 {
-                    Console.WriteLine("Attempting command: {0}", cmd);
+                    Debug.Write(String.Format("Attempting command: {0}", cmd));
                     string keyword = CommandProcessor.GetKeyword(cmd);
                     if (!bot.IsPlaced && !string.Equals(keyword, "Place", StringComparison.CurrentCultureIgnoreCase))
                     {
-                        Console.WriteLine("Bot not placed, ignoring command: {0}", cmd);
+                        Debug.Write(String.Format("Bot not placed, ignoring command: {0}", cmd));
                         continue;
                     }
                     else
@@ -36,7 +37,7 @@ namespace RunABot
                 }
                 else
                 {
-                    Console.WriteLine("Command not recognized: {0}", cmd);
+                    Debug.Write(String.Format("Command not recognized: {0}", cmd));
                 }
             }
         }

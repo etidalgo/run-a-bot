@@ -170,5 +170,4 @@ namespace BotLibrary
             bot.Orientation = newDirection[bot.Orientation];
         }
     }
-
 }
